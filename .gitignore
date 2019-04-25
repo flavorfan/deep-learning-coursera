@@ -104,3 +104,5 @@ ENV/
 .mypy_cache/
 
 readonly/
+
+Sequence Models/Building a Recurrent Neural Network - Step by Step/images/rnn\.png

@@ -139,7 +139,7 @@ def create_training_example(background, activates, negatives):
     x = graph_spectrogram("train.wav")
     return x, y
 
-
+# ------------- model --------------
 def model(input_shape):
     """
     Function creating the model's graph in Keras.
@@ -227,9 +227,15 @@ def preprocess_audio(filename):
 
 if __name__ == '__main__':
 
+    # 改变交互式的当前路径
+    os.getcwd()
+    os.chdir('G:/GitRepos/deep-learning-coursera/Sequence Models/Trigger word detection/')
+
     # 1 - From audio recordings to spectrograms
-    x = graph_spectrogram("audio_examples/example_train.wav")
+    # base_path = r'G:/GitRepos/deep-learning-coursera/Sequence Models/Trigger word detection/'
+    x = graph_spectrogram( "audio_examples/example_train.wav")
     _, data = wavfile.read("audio_examples/example_train.wav")
+    print(data.ndim)
     print("Time steps in audio recording before spectrogram", data[:,0].shape)
     print("Time steps in input after spectrogram", x.shape)
 
@@ -239,16 +245,18 @@ if __name__ == '__main__':
 
     # Generating a single training example
     # Load audio segments using pydub
+
+
     activates, negatives, backgrounds = load_raw_audio()
 
     print("background len: " + str(len(backgrounds[0])))  # Should be 10,000, since it is a 10 sec clip
     print("activate[0] len: " + str(len(activates[0])))  # Maybe around 1000, since an "activate" audio clip is usually around 1 sec (but varies a lot)
     print("activate[1] len: " + str(len(activates[1])))  # Different "activate" clips can have different lengths
 
-    overlap1 = is_overlapping((950, 1430), [(2000, 2550), (260, 949)])
-    overlap2 = is_overlapping((2305, 2950), [(824, 1532), (1900, 2305), (3424, 3656)])
-    print("Overlap 1 = ", overlap1)
-    print("Overlap 2 = ", overlap2)
+    # overlap1 = is_overlapping((950, 1430), [(2000, 2550), (260, 949)])
+    # overlap2 = is_overlapping((2305, 2950), [(824, 1532), (1900, 2305), (3424, 3656)])
+    # print("Overlap 1 = ", overlap1)
+    # print("Overlap 2 = ", overlap2)
 
     np.random.seed(5)
     audio_clip, segment_time = insert_audio_clip(backgrounds[0], activates[0], [(3790, 4400)])
@@ -289,6 +297,27 @@ if __name__ == '__main__':
     your_filename = "audio_examples/my_audio.wav"
     preprocess_audio(your_filename)
     IPython.display.Audio(your_filename)  # listen to the audio you uploaded
+
+
+#     test the transpose T swapaxes
+    arr = np.arange(24).reshape(2, 3, 4)
+    arr
+
+    arr2 = arr.swapaxes(1,2)
+    arr2
+    arr4 = arr.transpose(0,2,1)
+    arr4
+    arr3 =  np.zeros((2,4,3))
+
+
+
+
+    for i in range(2):
+        abc = arr[i, :, :]
+        arr3[i, :, :] = abc.reshape(4, 3, order='F')
+
+    arr3
+
 
 
 
