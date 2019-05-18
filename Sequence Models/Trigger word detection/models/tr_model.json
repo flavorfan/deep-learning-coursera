@@ -1,0 +1,483 @@
+{
+    "class_name": "Model",
+    "keras_version": "2.2.4",
+    "backend": "tensorflow",
+    "config": {
+        "output_layers": [
+            [
+                "time_distributed_3",
+                0,
+                0
+            ]
+        ],
+        "input_layers": [
+            [
+                "input_3",
+                0,
+                0
+            ]
+        ],
+        "name": "model_3",
+        "layers": [
+            {
+                "class_name": "InputLayer",
+                "name": "input_3",
+                "inbound_nodes": [],
+                "config": {
+                    "batch_input_shape": [
+                        null,
+                        5511,
+                        101
+                    ],
+                    "name": "input_3",
+                    "dtype": "float32",
+                    "sparse": false
+                }
+            },
+            {
+                "class_name": "Conv1D",
+                "name": "conv1d_3",
+                "inbound_nodes": [
+                    [
+                        [
+                            "input_3",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "data_format": "channels_last",
+                    "name": "conv1d_3",
+                    "bias_constraint": null,
+                    "kernel_size": [
+                        15
+                    ],
+                    "activation": "linear",
+                    "activity_regularizer": null,
+                    "filters": 256,
+                    "use_bias": true,
+                    "kernel_initializer": {
+                        "class_name": "VarianceScaling",
+                        "config": {
+                            "scale": 1,
+                            "distribution": "uniform",
+                            "mode": "fan_avg",
+                            "seed": null
+                        }
+                    },
+                    "trainable": true,
+                    "padding": "valid",
+                    "dilation_rate": [
+                        1
+                    ],
+                    "bias_initializer": {
+                        "class_name": "Zeros",
+                        "config": {}
+                    },
+                    "bias_regularizer": null,
+                    "kernel_regularizer": null,
+                    "kernel_constraint": null,
+                    "strides": [
+                        4
+                    ]
+                }
+            },
+            {
+                "class_name": "BatchNormalization",
+                "name": "batch_normalization_7",
+                "inbound_nodes": [
+                    [
+                        [
+                            "conv1d_3",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "moving_variance_initializer": {
+                        "class_name": "Ones",
+                        "config": {}
+                    },
+                    "scale": true,
+                    "axis": -1,
+                    "moving_mean_initializer": {
+                        "class_name": "Zeros",
+                        "config": {}
+                    },
+                    "gamma_constraint": null,
+                    "gamma_initializer": {
+                        "class_name": "Ones",
+                        "config": {}
+                    },
+                    "beta_constraint": null,
+                    "momentum": 0.99,
+                    "beta_initializer": {
+                        "class_name": "Zeros",
+                        "config": {}
+                    },
+                    "epsilon": 0.001,
+                    "beta_regularizer": null,
+                    "center": true,
+                    "gamma_regularizer": null,
+                    "trainable": true,
+                    "name": "batch_normalization_7"
+                }
+            },
+            {
+                "class_name": "Activation",
+                "name": "activation_3",
+                "inbound_nodes": [
+                    [
+                        [
+                            "batch_normalization_7",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "trainable": true,
+                    "name": "activation_3",
+                    "activation": "relu"
+                }
+            },
+            {
+                "class_name": "Dropout",
+                "name": "dropout_7",
+                "inbound_nodes": [
+                    [
+                        [
+                            "activation_3",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "trainable": true,
+                    "rate": 0.8,
+                    "name": "dropout_7",
+                    "noise_shape": null,
+                    "seed": null
+                }
+            },
+            {
+                "class_name": "GRU",
+                "name": "gru_5",
+                "inbound_nodes": [
+                    [
+                        [
+                            "dropout_7",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "bias_constraint": null,
+                    "units": 128,
+                    "go_backwards": false,
+                    "dropout": 0,
+                    "kernel_initializer": {
+                        "class_name": "VarianceScaling",
+                        "config": {
+                            "scale": 1,
+                            "distribution": "uniform",
+                            "mode": "fan_avg",
+                            "seed": null
+                        }
+                    },
+                    "activation": "tanh",
+                    "recurrent_regularizer": null,
+                    "recurrent_initializer": {
+                        "class_name": "Orthogonal",
+                        "config": {
+                            "gain": 1,
+                            "seed": null
+                        }
+                    },
+                    "implementation": 1,
+                    "kernel_regularizer": null,
+                    "bias_regularizer": null,
+                    "stateful": false,
+                    "bias_initializer": {
+                        "class_name": "Zeros",
+                        "config": {}
+                    },
+                    "kernel_constraint": null,
+                    "recurrent_activation": "hard_sigmoid",
+                    "recurrent_dropout": 0,
+                    "name": "gru_5",
+                    "reset_after": false,
+                    "activity_regularizer": null,
+                    "return_sequences": true,
+                    "recurrent_constraint": null,
+                    "unroll": false,
+                    "trainable": true,
+                    "use_bias": true,
+                    "return_state": false
+                }
+            },
+            {
+                "class_name": "Dropout",
+                "name": "dropout_8",
+                "inbound_nodes": [
+                    [
+                        [
+                            "gru_5",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "trainable": true,
+                    "rate": 0.8,
+                    "name": "dropout_8",
+                    "noise_shape": null,
+                    "seed": null
+                }
+            },
+            {
+                "class_name": "BatchNormalization",
+                "name": "batch_normalization_8",
+                "inbound_nodes": [
+                    [
+                        [
+                            "dropout_8",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "moving_variance_initializer": {
+                        "class_name": "Ones",
+                        "config": {}
+                    },
+                    "scale": true,
+                    "axis": -1,
+                    "moving_mean_initializer": {
+                        "class_name": "Zeros",
+                        "config": {}
+                    },
+                    "gamma_constraint": null,
+                    "gamma_initializer": {
+                        "class_name": "Ones",
+                        "config": {}
+                    },
+                    "beta_constraint": null,
+                    "momentum": 0.99,
+                    "beta_initializer": {
+                        "class_name": "Zeros",
+                        "config": {}
+                    },
+                    "epsilon": 0.001,
+                    "beta_regularizer": null,
+                    "center": true,
+                    "gamma_regularizer": null,
+                    "trainable": true,
+                    "name": "batch_normalization_8"
+                }
+            },
+            {
+                "class_name": "GRU",
+                "name": "gru_6",
+                "inbound_nodes": [
+                    [
+                        [
+                            "batch_normalization_8",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "bias_constraint": null,
+                    "units": 128,
+                    "go_backwards": false,
+                    "dropout": 0,
+                    "kernel_initializer": {
+                        "class_name": "VarianceScaling",
+                        "config": {
+                            "scale": 1,
+                            "distribution": "uniform",
+                            "mode": "fan_avg",
+                            "seed": null
+                        }
+                    },
+                    "activation": "tanh",
+                    "recurrent_regularizer": null,
+                    "recurrent_initializer": {
+                        "class_name": "Orthogonal",
+                        "config": {
+                            "gain": 1,
+                            "seed": null
+                        }
+                    },
+                    "implementation": 1,
+                    "kernel_regularizer": null,
+                    "bias_regularizer": null,
+                    "stateful": false,
+                    "bias_initializer": {
+                        "class_name": "Zeros",
+                        "config": {}
+                    },
+                    "kernel_constraint": null,
+                    "recurrent_activation": "hard_sigmoid",
+                    "recurrent_dropout": 0,
+                    "name": "gru_6",
+                    "reset_after": false,
+                    "activity_regularizer": null,
+                    "return_sequences": true,
+                    "recurrent_constraint": null,
+                    "unroll": false,
+                    "trainable": true,
+                    "use_bias": true,
+                    "return_state": false
+                }
+            },
+            {
+                "class_name": "Dropout",
+                "name": "dropout_9",
+                "inbound_nodes": [
+                    [
+                        [
+                            "gru_6",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "trainable": true,
+                    "rate": 0.8,
+                    "name": "dropout_9",
+                    "noise_shape": null,
+                    "seed": null
+                }
+            },
+            {
+                "class_name": "BatchNormalization",
+                "name": "batch_normalization_9",
+                "inbound_nodes": [
+                    [
+                        [
+                            "dropout_9",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "moving_variance_initializer": {
+                        "class_name": "Ones",
+                        "config": {}
+                    },
+                    "scale": true,
+                    "axis": -1,
+                    "moving_mean_initializer": {
+                        "class_name": "Zeros",
+                        "config": {}
+                    },
+                    "gamma_constraint": null,
+                    "gamma_initializer": {
+                        "class_name": "Ones",
+                        "config": {}
+                    },
+                    "beta_constraint": null,
+                    "momentum": 0.99,
+                    "beta_initializer": {
+                        "class_name": "Zeros",
+                        "config": {}
+                    },
+                    "epsilon": 0.001,
+                    "beta_regularizer": null,
+                    "center": true,
+                    "gamma_regularizer": null,
+                    "trainable": true,
+                    "name": "batch_normalization_9"
+                }
+            },
+            {
+                "class_name": "Dropout",
+                "name": "dropout_10",
+                "inbound_nodes": [
+                    [
+                        [
+                            "batch_normalization_9",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "trainable": true,
+                    "rate": 0.8,
+                    "name": "dropout_10",
+                    "noise_shape": null,
+                    "seed": null
+                }
+            },
+            {
+                "class_name": "TimeDistributed",
+                "name": "time_distributed_3",
+                "inbound_nodes": [
+                    [
+                        [
+                            "dropout_10",
+                            0,
+                            0,
+                            {}
+                        ]
+                    ]
+                ],
+                "config": {
+                    "trainable": true,
+                    "name": "time_distributed_3",
+                    "layer": {
+                        "class_name": "Dense",
+                        "config": {
+                            "name": "dense_3",
+                            "bias_constraint": null,
+                            "units": 1,
+                            "bias_initializer": {
+                                "class_name": "Zeros",
+                                "config": {}
+                            },
+                            "kernel_initializer": {
+                                "class_name": "VarianceScaling",
+                                "config": {
+                                    "scale": 1,
+                                    "distribution": "uniform",
+                                    "mode": "fan_avg",
+                                    "seed": null
+                                }
+                            },
+                            "activation": "sigmoid",
+                            "activity_regularizer": null,
+                            "trainable": true,
+                            "kernel_regularizer": null,
+                            "bias_regularizer": null,
+                            "use_bias": true,
+                            "kernel_constraint": null
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
